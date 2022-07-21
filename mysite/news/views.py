@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from .models import News
 
-def index(reques):
-    return HttpResponse('Hello world')
+# render: request, название шаблона, контекст (если его много, можно создать отдельную переменную)
 
 
-def test(reques):
-    return HttpResponse('Тестовая страница')
+def index(request):
+    news = News.objects.order_by('-created_at')
+    context = {'news': news, 'title': 'Список новостей'}
+    return render(request, 'news/index.html', context=context)
+
+
